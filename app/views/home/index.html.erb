@@ -1,0 +1,20 @@
+<div style="max-width: 800px; margin: 50px auto; padding: 20px;">
+  <h1>Welcome, <%= current_user.email %>!</h1>
+  
+  <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 30px 0;">
+    <h2>Two-Factor Authentication Status</h2>
+    <% if current_user.two_factor_enabled? && current_user.two_factor_verified? %>
+      <p style="color: green; font-weight: bold;">✓ Two-Factor Authentication is enabled and verified</p>
+    <% elsif current_user.two_factor_enabled? %>
+      <p style="color: orange; font-weight: bold;">⚠ Two-Factor Authentication is enabled but not verified</p>
+    <% else %>
+      <p style="color: red; font-weight: bold;">✗ Two-Factor Authentication is not enabled</p>
+      <p><%= link_to "Set up Two-Factor Authentication", two_factor_setup_path, style: "color: #007bff; text-decoration: none; font-weight: bold;" %></p>
+    <% end %>
+  </div>
+  
+  <div style="margin-top: 30px;">
+    <%= link_to "Sign out", destroy_user_session_path, method: :delete, style: "color: #dc3545; text-decoration: none;" %>
+  </div>
+</div>
+

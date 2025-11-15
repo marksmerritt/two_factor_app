@@ -1,0 +1,35 @@
+<div style="max-width: 600px; margin: 50px auto; padding: 20px;">
+  <h1>Set Up Two-Factor Authentication</h1>
+  
+  <p>Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.):</p>
+  
+  <div style="text-align: center; margin: 30px 0;">
+    <%= raw @qr_code_svg %>
+  </div>
+  
+  <p><strong>Or enter this code manually:</strong></p>
+  <p style="font-family: monospace; background: #f5f5f5; padding: 10px; text-align: center;">
+    <%= current_user.otp_secret %>
+  </p>
+  
+  <p>After scanning the QR code, enter the 6-digit code from your authenticator app to enable two-factor authentication:</p>
+  
+  <%= form_with url: two_factor_setup_enable_path, method: :post, local: true do |form| %>
+    <div style="margin: 20px 0;">
+      <%= form.label :code, "Verification Code:", style: "display: block; margin-bottom: 5px;" %>
+      <%= form.text_field :code, 
+          placeholder: "000000", 
+          maxlength: 6, 
+          pattern: "[0-9]{6}",
+          style: "width: 200px; padding: 10px; font-size: 18px; text-align: center; letter-spacing: 5px;",
+          autocomplete: "off" %>
+    </div>
+    
+    <%= form.submit "Enable Two-Factor Authentication", style: "padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;" %>
+  <% end %>
+  
+  <div style="margin-top: 30px;">
+    <%= link_to "Skip for now", root_path, style: "color: #666;" %>
+  </div>
+</div>
+
