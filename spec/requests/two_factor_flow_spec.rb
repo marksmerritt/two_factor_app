@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Complete Two-Factor Authentication Flow", type: :request do
-  let(:user) { create(:user, password: "password123") }
+  let(:user) { create(:user, :requires_two_factor, password: "password123") }
 
   describe "New user flow" do
     it "guides user through complete 2FA setup and verification" do
@@ -16,6 +16,9 @@ RSpec.describe "Complete Two-Factor Authentication Flow", type: :request do
       user = User.find_by(email: "newuser@example.com")
       expect(user).to be_present
       expect(response).to redirect_to(root_path)
+
+      # Step 1.5: Set 2FA as required for this user
+      user.update(two_factor_auth_required: true)
 
       # Step 2: User is redirected to 2FA setup
       follow_redirect!
@@ -44,7 +47,7 @@ RSpec.describe "Complete Two-Factor Authentication Flow", type: :request do
   end
 
   describe "Returning user flow" do
-    let(:user) { create(:user, :with_two_factor, password: "password123") }
+    let(:user) { create(:user, :with_two_factor, :requires_two_factor, password: "password123") }
     let(:totp) { ROTP::TOTP.new(user.otp_secret) }
 
     it "requires 2FA verification after login" do

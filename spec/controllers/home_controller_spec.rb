@@ -3,8 +3,21 @@ require 'rails_helper'
 RSpec.describe HomeController, type: :controller do
   describe "GET #index" do
     context "when user is authenticated" do
-      context "without 2FA enabled" do
+      context "without 2FA enabled but 2FA not required" do
         let(:user) { create(:user) }
+
+        before do
+          sign_in user
+        end
+
+        it "allows access to home page" do
+          get :index
+          expect(response).to have_http_status(:success)
+        end
+      end
+
+      context "with 2FA required but not enabled" do
+        let(:user) { create(:user, :requires_two_factor) }
 
         before do
           sign_in user
@@ -30,8 +43,8 @@ RSpec.describe HomeController, type: :controller do
         end
       end
 
-      context "with 2FA enabled but not verified" do
-        let(:user) { create(:user, :with_two_factor) }
+      context "with 2FA required, enabled but not verified" do
+        let(:user) { create(:user, :with_two_factor, :requires_two_factor) }
 
         before do
           sign_in user
@@ -40,6 +53,19 @@ RSpec.describe HomeController, type: :controller do
         it "redirects to 2FA verification" do
           get :index
           expect(response).to redirect_to(two_factor_verification_path)
+        end
+      end
+
+      context "with 2FA enabled but not required" do
+        let(:user) { create(:user, :with_two_factor) }
+
+        before do
+          sign_in user
+        end
+
+        it "allows access to home page" do
+          get :index
+          expect(response).to have_http_status(:success)
         end
       end
     end

@@ -59,8 +59,8 @@ RSpec.describe "Authentication", type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
-    context "with 2FA enabled" do
-      let(:user) { create(:user, :with_two_factor, password: "password123") }
+    context "with 2FA required and enabled" do
+      let(:user) { create(:user, :with_two_factor, :requires_two_factor, password: "password123") }
 
       it "resets 2FA verification status on login" do
         user.update(two_factor_verified: true)
@@ -72,6 +72,22 @@ RSpec.describe "Authentication", type: :request do
         }
         user.reload
         expect(user.two_factor_verified).to be false
+      end
+    end
+
+    context "with 2FA enabled but not required" do
+      let(:user) { create(:user, :with_two_factor, password: "password123") }
+
+      it "does not reset 2FA verification status on login" do
+        user.update(two_factor_verified: true)
+        post user_session_path, params: {
+          user: {
+            email: user.email,
+            password: "password123"
+          }
+        }
+        user.reload
+        expect(user.two_factor_verified).to be true
       end
     end
   end

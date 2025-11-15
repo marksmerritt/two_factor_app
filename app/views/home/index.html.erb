@@ -3,6 +3,12 @@
   
   <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 30px 0;">
     <h2>Two-Factor Authentication Status</h2>
+    <% if current_user.two_factor_auth_required? %>
+      <p style="color: blue; font-weight: bold;">🔒 Two-Factor Authentication is <strong>required</strong> for your account</p>
+    <% else %>
+      <p style="color: gray; font-weight: bold;">🔓 Two-Factor Authentication is <strong>optional</strong> for your account</p>
+    <% end %>
+    
     <% if current_user.two_factor_enabled? && current_user.two_factor_verified? %>
       <p style="color: green; font-weight: bold;">✓ Two-Factor Authentication is enabled and verified</p>
     <% elsif current_user.two_factor_enabled? %>

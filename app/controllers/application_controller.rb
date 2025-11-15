@@ -12,8 +12,11 @@ class ApplicationController < ActionController::Base
     return if devise_controller?
     return if controller_name == 'two_factor_setup' || controller_name == 'two_factor_verification'
 
+    # Only require 2FA if the user has the flag set to true
+    return unless user_signed_in? && current_user.two_factor_auth_required?
+
     # If user has 2FA enabled but not verified, redirect to verification
-    if user_signed_in? && current_user.two_factor_enabled? && !current_user.two_factor_verified?
+    if current_user.two_factor_enabled? && !current_user.two_factor_verified?
       redirect_to two_factor_verification_path, alert: "Please verify your two-factor authentication code."
     end
   end
