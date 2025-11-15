@@ -81,7 +81,7 @@ RSpec.describe "Complete Two-Factor Authentication Flow", type: :request do
 
     it "blocks access until 2FA is verified" do
       sign_in user
-      
+
       # Try to access home without verification
       get root_path
       expect(response).to redirect_to(two_factor_verification_path)
@@ -121,4 +121,3 @@ RSpec.describe "Complete Two-Factor Authentication Flow", type: :request do
     end
   end
 end
-

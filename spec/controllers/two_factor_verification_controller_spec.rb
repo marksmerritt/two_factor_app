@@ -81,4 +81,3 @@ RSpec.describe TwoFactorVerificationController, type: :controller do
     end
   end
 end
-

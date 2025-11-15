@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: 'users/sessions' }
-  
+  devise_for :users, controllers: { sessions: "users/sessions" }
+
   # Two-Factor Authentication routes
   get "two_factor_setup", to: "two_factor_setup#show", as: :two_factor_setup
   post "two_factor_setup/enable", to: "two_factor_setup#enable", as: :two_factor_setup_enable
-  
+
   get "two_factor_verification", to: "two_factor_verification#show", as: :two_factor_verification
   post "two_factor_verification/verify", to: "two_factor_verification#verify", as: :two_factor_verification_verify
 

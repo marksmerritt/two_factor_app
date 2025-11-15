@@ -71,4 +71,3 @@ RSpec.describe "Two Factor Setup", type: :request do
     end
   end
 end
-

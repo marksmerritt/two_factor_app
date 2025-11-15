@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def require_two_factor_verification
     # Skip 2FA check for Devise routes and 2FA setup/verification routes
     return if devise_controller?
-    return if controller_name == 'two_factor_setup' || controller_name == 'two_factor_verification'
+    return if controller_name == "two_factor_setup" || controller_name == "two_factor_verification"
 
     # Only require 2FA if the user has the flag set to true
     return unless user_signed_in? && current_user.two_factor_auth_required?
@@ -21,4 +21,3 @@ class ApplicationController < ActionController::Base
     end
   end
 end
-

@@ -98,4 +98,3 @@ RSpec.describe TwoFactorSetupController, type: :controller do
     end
   end
 end
-

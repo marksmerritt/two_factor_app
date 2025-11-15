@@ -24,4 +24,3 @@ class TwoFactorVerificationController < ApplicationController
     end
   end
 end
-

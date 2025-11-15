@@ -79,4 +79,3 @@ RSpec.describe "Application Controller 2FA Protection", type: :request do
     end
   end
 end
-

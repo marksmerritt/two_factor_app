@@ -71,4 +71,3 @@ RSpec.describe "Two Factor Verification", type: :request do
     end
   end
 end
-

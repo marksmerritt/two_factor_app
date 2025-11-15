@@ -25,4 +25,3 @@ class TwoFactorSetupController < ApplicationController
     end
   end
 end
-
